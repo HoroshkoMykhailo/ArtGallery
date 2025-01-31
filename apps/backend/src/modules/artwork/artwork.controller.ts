@@ -127,18 +127,29 @@ class ArtWorksController {
     required: false,
     type: 'string'
   })
+  @ApiQuery({
+    description: 'Filter artworks by artist',
+    name: 'artist',
+    required: false,
+    type: 'string'
+  })
   @ApiResponse({
     description: 'Artworks successfully received',
     status: HttpStatus.OK
   })
   public async getArtworks(
     @Query('price') price?: ValueOf<typeof SortOrder>,
-    @Query('type') type?: ValueOf<typeof ArtWorkType>
+    @Query('type') type?: ValueOf<typeof ArtWorkType>,
+    @Query('artist') artist?: string
   ): Promise<TArtWork[]> {
     const query: ArtWorkQuery = {};
 
     if (price) {
       query.price = price;
+    }
+
+    if (artist) {
+      query.artist = artist;
     }
 
     if (type) {

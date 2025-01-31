@@ -4,6 +4,7 @@ import { type ValueOf } from '~/libs/types/types.js';
 import { type ArtWorkType } from '../enums/art-work-type.enum.js';
 
 type ArtWorkQuery = {
+  artist?: string;
   price?: ValueOf<typeof SortOrder>;
   type?: ValueOf<typeof ArtWorkType>;
 };

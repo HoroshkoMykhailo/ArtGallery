@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { type Express } from 'express';
 import 'multer';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 import { saveFile } from '~/libs/helpers/helpers.js';
 
@@ -66,9 +66,14 @@ class ArtWorkService {
     return transformArtWork(artWork);
   }
   public async getArtWorks(query: ArtWorkQuery): Promise<TArtWork[]> {
-    const { price, type } = query;
+    const { artist, price, type } = query;
     const order = price ? { price } : {};
-    const filter = type ? { type } : {};
+
+    const filter = {
+      ...(type && { type }),
+      ...(artist && { artist: ILike(`%${artist}%`) })
+    };
+
     const artWorks = await this.artWorkRepository.find({
       order,
       where: filter
