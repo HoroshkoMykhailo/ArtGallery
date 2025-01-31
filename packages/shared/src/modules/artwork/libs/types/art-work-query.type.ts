@@ -6,6 +6,7 @@ import { type ArtWorkType } from '../enums/art-work-type.enum.js';
 type ArtWorkQuery = {
   artist?: string;
   price?: ValueOf<typeof SortOrder>;
+  title?: string;
   type?: ValueOf<typeof ArtWorkType>;
 };
 

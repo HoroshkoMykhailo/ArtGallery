@@ -66,11 +66,12 @@ class ArtWorkService {
     return transformArtWork(artWork);
   }
   public async getArtWorks(query: ArtWorkQuery): Promise<TArtWork[]> {
-    const { artist, price, type } = query;
+    const { artist, price, title, type } = query;
     const order = price ? { price } : {};
 
     const filter = {
       ...(type && { type }),
+      ...(title && { title: ILike(`%${title}%`) }),
       ...(artist && { artist: ILike(`%${artist}%`) })
     };
 

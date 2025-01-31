@@ -25,13 +25,12 @@ import { type Express } from 'express';
 import 'multer';
 
 import { JoiValidationPipe } from '~/libs/helpers/helpers.js';
-import { type ValueOf } from '~/libs/types/types.js';
 
 import { imageFileFilter } from '../../libs/filters/filters.js';
 import { ArtWorkService } from './artwork.service.js';
 import { ArtWorkType, SortOrder } from './libs/enums/enums.js';
 import {
-  ArtWorkQuery,
+  type ArtWorkQuery,
   type ArtWorkRequestDto,
   type ArtWork as TArtWork
 } from './libs/types/types.js';
@@ -133,29 +132,17 @@ class ArtWorksController {
     required: false,
     type: 'string'
   })
+  @ApiQuery({
+    description: 'Filter artworks by title',
+    name: 'title',
+    required: false,
+    type: 'string'
+  })
   @ApiResponse({
     description: 'Artworks successfully received',
     status: HttpStatus.OK
   })
-  public async getArtworks(
-    @Query('price') price?: ValueOf<typeof SortOrder>,
-    @Query('type') type?: ValueOf<typeof ArtWorkType>,
-    @Query('artist') artist?: string
-  ): Promise<TArtWork[]> {
-    const query: ArtWorkQuery = {};
-
-    if (price) {
-      query.price = price;
-    }
-
-    if (artist) {
-      query.artist = artist;
-    }
-
-    if (type) {
-      query.type = type;
-    }
-
+  public async getArtworks(@Query() query: ArtWorkQuery): Promise<TArtWork[]> {
     return await this.artWorkService.getArtWorks(query);
   }
 }
