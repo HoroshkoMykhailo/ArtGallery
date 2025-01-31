@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { type Express } from 'express';
 import { Repository } from 'typeorm';
@@ -26,6 +26,31 @@ class ArtWorkService {
     return transformArtWork(await this.artWorkRepository.save(artWork));
   }
 
+  public async deleteArtWork(id: number): Promise<boolean> {
+    const artWork = await this.artWorkRepository.findOne({
+      where: { id }
+    });
+
+    if (!artWork) {
+      throw new NotFoundException('Artwork not found');
+    }
+
+    const deletedArtWork = await this.artWorkRepository.remove(artWork);
+
+    return !!deletedArtWork;
+  }
+
+  public async getArtWork(id: number): Promise<TArtWork> {
+    const artWork = await this.artWorkRepository.findOne({
+      where: { id }
+    });
+
+    if (!artWork) {
+      throw new NotFoundException('Artwork not found');
+    }
+
+    return transformArtWork(artWork);
+  }
   public async getArtWorks(): Promise<TArtWork[]> {
     const artWorks = await this.artWorkRepository.find();
 

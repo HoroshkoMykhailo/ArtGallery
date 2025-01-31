@@ -7,7 +7,7 @@ const imageFileFilter = (
   callback: (error: Error | null, acceptFile: boolean) => void
 ): void => {
   if (!file.mimetype.startsWith('image/')) {
-    callback(new BadRequestException('Only image files are allowed!'), false);
+    callback(new BadRequestException('Only images are allowed'), false);
 
     return;
   }
