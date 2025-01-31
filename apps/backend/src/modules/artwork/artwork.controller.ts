@@ -7,6 +7,7 @@ import {
   Inject,
   Param,
   Post,
+  Put,
   Query,
   UploadedFile,
   UseInterceptors,
@@ -28,13 +29,17 @@ import { JoiValidationPipe } from '~/libs/helpers/helpers.js';
 
 import { imageFileFilter } from '../../libs/filters/filters.js';
 import { ArtWorkService } from './artwork.service.js';
-import { ArtWorkType, SortOrder } from './libs/enums/enums.js';
+import { ArtWorkError, ArtWorkType, SortOrder } from './libs/enums/enums.js';
 import {
   type ArtWorkQuery,
   type ArtWorkRequestDto,
-  type ArtWork as TArtWork
+  type ArtWork as TArtWork,
+  type UpdateArtWorkRequestDto
 } from './libs/types/types.js';
-import { artWorkValidationSchema } from './libs/validation-schemas/validation-schemas.js';
+import {
+  artWorkValidationSchema,
+  updateArtWorkValidationSchema
+} from './libs/validation-schemas/validation-schemas.js';
 
 @Controller('artworks')
 class ArtWorksController {
@@ -87,7 +92,7 @@ class ArtWorksController {
     status: HttpStatus.OK
   })
   @ApiResponse({
-    description: 'Artwork not found',
+    description: ArtWorkError.NOT_FOUND,
     status: HttpStatus.NOT_FOUND
   })
   @ApiParam({ name: 'id', type: 'number' })
@@ -102,7 +107,7 @@ class ArtWorksController {
     status: HttpStatus.OK
   })
   @ApiResponse({
-    description: 'Artwork not found',
+    description: ArtWorkError.NOT_FOUND,
     status: HttpStatus.NOT_FOUND
   })
   @ApiParam({ name: 'id', type: 'number' })
@@ -144,6 +149,44 @@ class ArtWorksController {
   })
   public async getArtworks(@Query() query: ArtWorkQuery): Promise<TArtWork[]> {
     return await this.artWorkService.getArtWorks(query);
+  }
+
+  @Put(':id')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      fileFilter: imageFileFilter
+    })
+  )
+  @UsePipes(new JoiValidationPipe(updateArtWorkValidationSchema))
+  @ApiOperation({ summary: 'Update artwork' })
+  @ApiResponse({
+    description: 'Artwork successfully updated',
+    status: HttpStatus.OK
+  })
+  @ApiResponse({
+    description: ArtWorkError.NOT_FOUND,
+    status: HttpStatus.NOT_FOUND
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      properties: {
+        artist: { example: 'John Doe', type: 'string' },
+        availability: { example: true, type: 'boolean' },
+        image: { format: 'binary', type: 'string' },
+        price: { example: 100, type: 'number' },
+        title: { example: 'Beautiful Painting', type: 'string' },
+        type: { example: 'painting', type: 'string' }
+      }
+    }
+  })
+  @ApiParam({ name: 'id', type: 'number' })
+  public async updateArtWork(
+    @Param('id') id: number,
+    @Body() body: UpdateArtWorkRequestDto,
+    @UploadedFile() file?: Express.Multer.File
+  ): Promise<TArtWork> {
+    return await this.artWorkService.updateArtWork(id, body, file);
   }
 }
 

@@ -1,1 +1,1 @@
-export { ArtWorkType, SortOrder } from '@art-gallery/shared';
+export { ArtWorkError, ArtWorkType, SortOrder } from '@art-gallery/shared';
