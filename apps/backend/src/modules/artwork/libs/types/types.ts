@@ -1,1 +1,5 @@
-export { type ArtWork, type ArtWorkRequestDto } from '@art-gallery/shared';
+export {
+  type ArtWork,
+  type ArtWorkQuery,
+  type ArtWorkRequestDto
+} from '@art-gallery/shared';

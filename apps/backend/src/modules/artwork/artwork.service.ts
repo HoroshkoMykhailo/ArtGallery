@@ -5,12 +5,14 @@ import 'multer';
 import { Repository } from 'typeorm';
 
 import { saveFile } from '~/libs/helpers/helpers.js';
-import { ValueOf } from '~/libs/types/types.js';
 
 import { ArtWork } from './artwork.js';
-import { SortOrder } from './libs/enums/enums.js';
 import { transformArtWork } from './libs/helpers/transform-art-work.helper.js';
-import { ArtWorkRequestDto, ArtWork as TArtWork } from './libs/types/types.js';
+import {
+  ArtWorkQuery,
+  ArtWorkRequestDto,
+  ArtWork as TArtWork
+} from './libs/types/types.js';
 
 @Injectable()
 class ArtWorkService {
@@ -63,12 +65,13 @@ class ArtWorkService {
 
     return transformArtWork(artWork);
   }
-  public async getArtWorks(
-    price?: ValueOf<typeof SortOrder>
-  ): Promise<TArtWork[]> {
+  public async getArtWorks(query: ArtWorkQuery): Promise<TArtWork[]> {
+    const { price, type } = query;
     const order = price ? { price } : {};
+    const filter = type ? { type } : {};
     const artWorks = await this.artWorkRepository.find({
-      order
+      order,
+      where: filter
     });
 
     return artWorks.map(artWork => {

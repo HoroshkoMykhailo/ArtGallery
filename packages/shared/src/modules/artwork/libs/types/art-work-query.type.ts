@@ -1,0 +1,11 @@
+import { type SortOrder } from '~/libs/enum/sort-order.enum.js';
+import { type ValueOf } from '~/libs/types/types.js';
+
+import { type ArtWorkType } from '../enums/art-work-type.enum.js';
+
+type ArtWorkQuery = {
+  price?: ValueOf<typeof SortOrder>;
+  type?: ValueOf<typeof ArtWorkType>;
+};
+
+export { type ArtWorkQuery };
