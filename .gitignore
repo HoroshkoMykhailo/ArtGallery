@@ -81,6 +81,5 @@ dist
 .env.test.local
 .env.production.local
 
-apps/backend/public/*
-!apps/backend/public/index.html
+apps/backend/static/*
 apps/frontend/.vite

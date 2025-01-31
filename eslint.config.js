@@ -166,6 +166,7 @@ const typescriptConfig = {
       }
     ],
     '@typescript-eslint/explicit-member-accessibility': ['error'],
+    '@typescript-eslint/no-extraneous-class': ['off'],
     '@typescript-eslint/no-magic-numbers': [
       'error',
       {

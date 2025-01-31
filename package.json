@@ -57,6 +57,7 @@
     "stylelint": "16.6.1",
     "stylelint-config-recess-order": "5.0.1",
     "stylelint-config-standard": "36.0.0",
+    "tsc-alias": "1.8.10",
     "typescript": "5.4.5"
   },
   "simple-git-hooks": {

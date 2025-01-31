@@ -6,9 +6,12 @@ const config: KnipConfig = {
   workspaces: {
     '.': {},
     'apps/backend': {
-      entry: ['src/index.ts', 'src/db/**/*.ts'],
-      ignoreBinaries: ['ts-paths-esm-loader'],
-      ignoreDependencies: ['ts-paths-esm-loader', 'pino-pretty']
+      entry: [
+        'src/main.ts',
+        'src/libs/config/ormconfig.ts',
+        'test/app.error2error-spec.ts',
+        'src/migrations/*.ts'
+      ]
     },
     'apps/frontend': {
       entry: ['src/index.tsx']
