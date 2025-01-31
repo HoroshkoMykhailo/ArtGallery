@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { type Express } from 'express';
+import 'multer';
 import { Repository } from 'typeorm';
 
 import { saveFile } from '~/libs/helpers/helpers.js';

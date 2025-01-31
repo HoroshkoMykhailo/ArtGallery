@@ -8,7 +8,8 @@ import {
   Param,
   Post,
   UploadedFile,
-  UseInterceptors
+  UseInterceptors,
+  UsePipes
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -19,6 +20,9 @@ import {
   ApiResponse
 } from '@nestjs/swagger';
 import { type Express } from 'express';
+import 'multer';
+
+import { JoiValidationPipe } from '~/libs/helpers/helpers.js';
 
 import { imageFileFilter } from '../../libs/filters/filters.js';
 import { ArtWorkService } from './artwork.service.js';
@@ -26,6 +30,7 @@ import {
   type ArtWorkRequestDto,
   type ArtWork as TArtWork
 } from './libs/types/types.js';
+import { artWorkValidationSchema } from './libs/validation-schemas/validation-schemas.js';
 
 @Controller('artworks')
 class ArtWorksController {
@@ -40,13 +45,14 @@ class ArtWorksController {
       fileFilter: imageFileFilter
     })
   )
+  @UsePipes(new JoiValidationPipe(artWorkValidationSchema))
   @ApiOperation({ summary: 'New artwork creation' })
   @ApiResponse({
     description: 'Artwork successfully created',
     status: HttpStatus.CREATED
   })
   @ApiResponse({
-    description: 'Only images are allowed',
+    description: 'Bad request',
     status: HttpStatus.BAD_REQUEST
   })
   @ApiConsumes('multipart/form-data')

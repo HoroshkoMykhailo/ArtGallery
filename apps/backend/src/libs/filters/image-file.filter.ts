@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { type Express } from 'express';
+import 'multer';
 
 const imageFileFilter = (
   _request: Express.Request,

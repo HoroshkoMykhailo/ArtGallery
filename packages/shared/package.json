@@ -14,5 +14,8 @@
     "lint:js": "npx eslint . --max-warnings=0 --no-warn-ignored",
     "lint": "concurrently \"npm:lint:*\"",
     "build": "tsc && tsc-alias"
+  },
+  "dependencies": {
+    "joi": "17.13.1"
   }
 }
