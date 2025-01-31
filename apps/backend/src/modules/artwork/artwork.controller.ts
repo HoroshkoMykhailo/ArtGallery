@@ -7,6 +7,7 @@ import {
   Inject,
   Param,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
   UsePipes
@@ -17,15 +18,18 @@ import {
   ApiConsumes,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse
 } from '@nestjs/swagger';
 import { type Express } from 'express';
 import 'multer';
 
 import { JoiValidationPipe } from '~/libs/helpers/helpers.js';
+import { type ValueOf } from '~/libs/types/types.js';
 
 import { imageFileFilter } from '../../libs/filters/filters.js';
 import { ArtWorkService } from './artwork.service.js';
+import { SortOrder } from './libs/enums/enums.js';
 import {
   type ArtWorkRequestDto,
   type ArtWork as TArtWork
@@ -108,12 +112,21 @@ class ArtWorksController {
 
   @Get()
   @ApiOperation({ summary: 'Get artworks' })
+  @ApiQuery({
+    description: 'Sort artworks by price',
+    enum: Object.values(SortOrder),
+    name: 'price',
+    required: false,
+    type: 'string'
+  })
   @ApiResponse({
     description: 'Artworks successfully received',
     status: HttpStatus.OK
   })
-  public async getArtworks(): Promise<TArtWork[]> {
-    return await this.artWorkService.getArtWorks();
+  public async getArtworks(
+    @Query('price') price?: ValueOf<typeof SortOrder>
+  ): Promise<TArtWork[]> {
+    return await this.artWorkService.getArtWorks(price);
   }
 }
 

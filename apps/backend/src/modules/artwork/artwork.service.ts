@@ -5,8 +5,10 @@ import 'multer';
 import { Repository } from 'typeorm';
 
 import { saveFile } from '~/libs/helpers/helpers.js';
+import { ValueOf } from '~/libs/types/types.js';
 
 import { ArtWork } from './artwork.js';
+import { SortOrder } from './libs/enums/enums.js';
 import { transformArtWork } from './libs/helpers/transform-art-work.helper.js';
 import { ArtWorkRequestDto, ArtWork as TArtWork } from './libs/types/types.js';
 
@@ -61,8 +63,13 @@ class ArtWorkService {
 
     return transformArtWork(artWork);
   }
-  public async getArtWorks(): Promise<TArtWork[]> {
-    const artWorks = await this.artWorkRepository.find();
+  public async getArtWorks(
+    price?: ValueOf<typeof SortOrder>
+  ): Promise<TArtWork[]> {
+    const order = price ? { price } : {};
+    const artWorks = await this.artWorkRepository.find({
+      order
+    });
 
     return artWorks.map(artWork => {
       return transformArtWork(artWork);
