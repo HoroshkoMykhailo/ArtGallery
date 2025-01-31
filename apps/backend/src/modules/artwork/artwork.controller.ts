@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -21,7 +22,10 @@ import { type Express } from 'express';
 
 import { imageFileFilter } from '../../libs/filters/filters.js';
 import { ArtWorkService } from './artwork.service.js';
-import { ArtWork as TArtWork } from './libs/types/types.js';
+import {
+  type ArtWorkRequestDto,
+  type ArtWork as TArtWork
+} from './libs/types/types.js';
 
 @Controller('artworks')
 class ArtWorksController {
@@ -49,16 +53,21 @@ class ArtWorksController {
   @ApiBody({
     schema: {
       properties: {
-        image: { format: 'binary', type: 'string' }
+        artist: { example: 'John Doe', type: 'string' },
+        availability: { example: true, type: 'boolean' },
+        image: { format: 'binary', type: 'string' },
+        price: { example: 100, type: 'number' },
+        title: { example: 'Beautiful Painting', type: 'string' },
+        type: { example: 'painting', type: 'string' }
       },
-
       type: 'object'
     }
   })
   public async createArtWork(
-    @UploadedFile() file: Express.Multer.File
+    @Body() body: ArtWorkRequestDto,
+    @UploadedFile() file?: Express.Multer.File
   ): Promise<TArtWork> {
-    return await this.artWorkService.createArtWork(file);
+    return await this.artWorkService.createArtWork(body, file);
   }
 
   @Delete(':id')
@@ -78,7 +87,10 @@ class ArtWorksController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get artwork' })
-  @ApiResponse({ description: 'Successful response', status: HttpStatus.OK })
+  @ApiResponse({
+    description: 'Artwork successfully received',
+    status: HttpStatus.OK
+  })
   @ApiResponse({
     description: 'Artwork not found',
     status: HttpStatus.NOT_FOUND
@@ -90,7 +102,10 @@ class ArtWorksController {
 
   @Get()
   @ApiOperation({ summary: 'Get artworks' })
-  @ApiResponse({ description: 'Successful response', status: HttpStatus.OK })
+  @ApiResponse({
+    description: 'Artworks successfully received',
+    status: HttpStatus.OK
+  })
   public async getArtworks(): Promise<TArtWork[]> {
     return await this.artWorkService.getArtWorks();
   }

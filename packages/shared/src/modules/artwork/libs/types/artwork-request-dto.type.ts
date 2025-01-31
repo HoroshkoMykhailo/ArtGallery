@@ -2,14 +2,12 @@ import { type ValueOf } from '~/libs/types/types.js';
 
 import { type ArtWorkType } from '../../artwork.js';
 
-type ArtWork = {
+type ArtWorkRequestDto = {
   artist: string;
-  availability: boolean;
-  id: string;
-  image?: string;
+  availability?: boolean;
   price: number;
   title: string;
   type: ValueOf<typeof ArtWorkType>;
 };
 
-export { type ArtWork };
+export { type ArtWorkRequestDto };

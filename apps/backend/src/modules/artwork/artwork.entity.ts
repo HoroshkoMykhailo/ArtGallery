@@ -1,19 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Check, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { type ValueOf } from '~/libs/types/types.js';
 
 import { ArtWorkType } from './libs/enums/enums.js';
 
 @Entity()
+@Check('"price" >= 0')
 class ArtWork {
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ length: 50, type: 'varchar' })
   @ApiProperty({ description: 'Artwork artist', example: 'artist' })
-  public artist?: string;
+  public artist!: string;
 
-  @Column({ nullable: true, type: 'boolean' })
+  @Column({ type: 'boolean' })
   @ApiProperty({ description: 'Artwork availability', example: true })
-  public availability?: boolean;
+  public availability!: boolean;
 
   @PrimaryGeneratedColumn()
   @ApiProperty({ description: 'Unique artwork Id', example: 1 })
@@ -23,17 +24,17 @@ class ArtWork {
   @ApiProperty({ description: 'Artwork image url', example: 'imageUrl' })
   public image?: string;
 
-  @Column({ nullable: true, type: 'int' })
+  @Column({ type: 'int' })
   @ApiProperty({ description: 'Artwork price', example: 100 })
-  public price?: number;
+  public price!: number;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ length: 50, type: 'varchar' })
   @ApiProperty({ description: 'Artwork title', example: 'title' })
-  public title?: string;
+  public title!: string;
 
-  @Column({ enum: ArtWorkType, nullable: true, type: 'enum' })
+  @Column({ enum: ArtWorkType, type: 'enum' })
   @ApiProperty({ description: 'Artwork type', example: 'painting' })
-  public type?: ValueOf<typeof ArtWorkType>;
+  public type!: ValueOf<typeof ArtWorkType>;
 }
 
 export { ArtWork };

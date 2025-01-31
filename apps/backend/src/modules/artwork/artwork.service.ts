@@ -7,7 +7,7 @@ import { saveFile } from '~/libs/helpers/helpers.js';
 
 import { ArtWork } from './artwork.js';
 import { transformArtWork } from './libs/helpers/transform-art-work.helper.js';
-import { ArtWork as TArtWork } from './libs/types/types.js';
+import { ArtWorkRequestDto, ArtWork as TArtWork } from './libs/types/types.js';
 
 @Injectable()
 class ArtWorkService {
@@ -16,11 +16,20 @@ class ArtWorkService {
     private readonly artWorkRepository: Repository<ArtWork>
   ) {}
 
-  public async createArtWork(file: Express.Multer.File): Promise<TArtWork> {
-    const filePath = saveFile(file);
+  public async createArtWork(
+    body: ArtWorkRequestDto,
+    file?: Express.Multer.File
+  ): Promise<TArtWork> {
+    const filePath = file ? saveFile(file) : undefined;
+    const { artist, availability, price, title, type } = body;
 
     const artWork = this.artWorkRepository.create({
-      image: filePath
+      artist,
+      availability: availability || false,
+      price,
+      title,
+      type,
+      ...(filePath && { image: filePath })
     });
 
     return transformArtWork(await this.artWorkRepository.save(artWork));
