@@ -1,0 +1,40 @@
+{
+  "name": "@art-gallery/frontend",
+  "private": true,
+  "engines": {
+    "node": "20.11.x",
+    "npm": "10.2.x"
+  },
+  "type": "module",
+  "scripts": {
+    "start:dev": "vite",
+    "build": "tsc -p tsconfig.build.json && vite build",
+    "preview": "vite preview",
+    "lint:css": "npx stylelint \"src/**/*.css\"",
+    "lint:js": "npx eslint . --max-warnings=0",
+    "lint:type": "npx tsc --noEmit",
+    "lint": "concurrently \"npm:lint:*\""
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "@vitejs/plugin-react": "4.3.1",
+    "eslint-plugin-jsx-a11y": "6.8.0",
+    "eslint-plugin-react": "7.34.2",
+    "eslint-plugin-react-hooks": "4.6.2",
+    "sass": "1.77.4",
+    "vite": "5.4.14",
+    "vite-plugin-svgr": "4.2.0",
+    "vite-tsconfig-paths": "4.3.2"
+  }
+}
