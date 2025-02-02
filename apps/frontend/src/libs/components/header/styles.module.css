@@ -1,5 +1,5 @@
 .logo-img {
-  height: 40px;
+  height: 32px;
 }
 
 .header {
@@ -12,7 +12,8 @@
 }
 
 .logo-text {
-  font-size: 24px;
+  margin: 0;
+  font-size: 20px;
   font-weight: bold;
   color: var(--black);
 }

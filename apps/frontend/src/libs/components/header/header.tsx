@@ -6,7 +6,7 @@ const Header = (): JSX.Element => {
   return (
     <header className={styles['header']}>
       <img alt="GitFit logo" className={styles['logo-img']} src={logoSrc} />
-      <p className={styles['logo-text']}>ArtGalleryManager</p>
+      <h1 className={styles['logo-text']}>ArtGalleryManager</h1>
     </header>
   );
 };
