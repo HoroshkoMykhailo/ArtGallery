@@ -9,3 +9,4 @@ const artWorkApi = new ArtWorkApi({
 });
 
 export { artWorkApi };
+export { type ArtWork, type ArtWorkQuery } from './libs/types/types.js';

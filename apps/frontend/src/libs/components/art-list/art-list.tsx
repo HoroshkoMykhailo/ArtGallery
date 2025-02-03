@@ -1,5 +1,5 @@
 import { ZERO_VALUE } from '~/libs/common/constants.js';
-import { type ArtWork as TArtWork } from '~/libs/modules/artwork/types/types.js';
+import { type ArtWork as TArtWork } from '~/libs/modules/artwork/artwork.js';
 
 import { ArtWork, Loader } from '../components.js';
 import styles from './styles.module.css';

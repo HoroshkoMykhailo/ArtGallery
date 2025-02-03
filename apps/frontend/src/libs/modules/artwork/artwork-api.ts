@@ -1,6 +1,11 @@
 import { type AxiosInstance } from 'axios';
 
-import { type ArtWorkApi, type ArtWork as TArtWork } from './types/types.js';
+import { toQueryParameters } from './libs/helpers/helpers.js';
+import {
+  type ArtWorkApi,
+  type ArtWorkQuery,
+  type ArtWork as TArtWork
+} from './libs/types/types.js';
 
 type Constructor = {
   apiPath: string;
@@ -16,8 +21,12 @@ class ArtWork implements ArtWorkApi {
     this.httpApi = httpApi;
   }
 
-  public async getArtWorks(): Promise<TArtWork[]> {
-    const { data } = await this.httpApi.get<TArtWork[]>(this.apiPath);
+  public async getArtWorks(query: ArtWorkQuery = {}): Promise<TArtWork[]> {
+    const queryParameters = toQueryParameters(query);
+
+    const { data } = await this.httpApi.get<TArtWork[]>(
+      `${this.apiPath}?${queryParameters}`
+    );
 
     return data;
   }

@@ -1,7 +1,7 @@
 import { DEFAULT_IMAGE } from '~/libs/common/constants.js';
 import { ENV } from '~/libs/enums/enums.js';
 import { getRandomShadowColor } from '~/libs/helpers/helpers.js';
-import { type ArtWork as TArtWork } from '~/libs/modules/artwork/types/types.js';
+import { type ArtWork as TArtWork } from '~/libs/modules/artwork/artwork.js';
 
 import styles from './styles.module.css';
 
