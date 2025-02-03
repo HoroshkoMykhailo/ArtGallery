@@ -8,12 +8,11 @@
   align-items: center;
   padding: 16px 20px;
   background-color: var(--white);
-  box-shadow: 0 2px 4px #0000001a;
+  border-bottom: 5px solid var(--gray);
 }
 
 .logo-text {
   margin: 0;
   font-size: 20px;
-  font-weight: bold;
   color: var(--black);
 }
