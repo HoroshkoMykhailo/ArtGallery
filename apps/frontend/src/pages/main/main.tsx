@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import { ArtList, FilterOptions } from '~/libs/components/components.js';
+import {
+  ArtList,
+  ControlButtons,
+  FilterOptions
+} from '~/libs/components/components.js';
 import { useRequest } from '~/libs/hooks/hooks.js';
 import {
   type ArtWorkQuery,
@@ -11,12 +15,35 @@ import styles from './styles.module.css';
 
 const Main = (): JSX.Element => {
   const [query, setQuery] = useState<ArtWorkQuery>({});
+  const [isRemoving, setIsRemoving] = useState<boolean>(false);
+  const [selectedId, setSelectedId] = useState<null | number>(null);
+
   const { data, error, loading } = useRequest(
     () => artWorkApi.getArtWorks(query),
     {
       refreshDeps: [query]
     }
   );
+
+  const handleRemoveClick = useCallback(() => {
+    setIsRemoving(true);
+    setSelectedId(null);
+  }, []);
+
+  const handleCancelRemove = useCallback(() => {
+    setIsRemoving(false);
+    setSelectedId(null);
+  }, []);
+
+  const removeArtwork = useCallback(() => {
+    if (!selectedId) {
+      return;
+    }
+
+    void artWorkApi.deleteArtWork(selectedId);
+    setSelectedId(null);
+    setIsRemoving(false);
+  }, [selectedId]);
 
   return (
     <main className={styles['main']}>
@@ -26,6 +53,16 @@ const Main = (): JSX.Element => {
         artWorks={data}
         loading={loading}
         {...(error && { error: error.message })}
+        isRemoving={isRemoving}
+        onSelect={setSelectedId}
+        selectedId={selectedId}
+      />
+      <ControlButtons
+        disabled={isRemoving && !selectedId}
+        isRemoving={isRemoving}
+        onCancelRemove={handleCancelRemove}
+        onConfirmRemove={removeArtwork}
+        onRemove={handleRemoveClick}
       />
     </main>
   );

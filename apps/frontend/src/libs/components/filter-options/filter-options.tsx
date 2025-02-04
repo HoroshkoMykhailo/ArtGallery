@@ -99,7 +99,6 @@ const FilterOptions = ({ setQuery }: Properties): JSX.Element => {
         placeholder="Select type"
         selected={artworkType}
       />
-      {/* <Button onClick={handleSearch}>Search</Button> */}
       <Button onClick={handleClear}>Clear</Button>
     </div>
   );

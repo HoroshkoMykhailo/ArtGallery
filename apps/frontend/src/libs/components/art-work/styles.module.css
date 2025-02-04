@@ -1,4 +1,5 @@
 .art-work {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -7,6 +8,26 @@
   background-color: var(--white);
   border-radius: 10px;
   box-shadow: 0 1px 5px var(--black);
+}
+
+.art-work__remove {
+  cursor: pointer;
+}
+
+.art-work__remove:hover {
+  background-color: var(--remove-color);
+}
+
+.art-work__selected {
+  background-color: var(--remove-color);
+}
+
+.art-work__trash-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--error-color);
+  transform: translate(-50%, -50%);
 }
 
 .art-work__img-wrapper {
@@ -48,4 +69,16 @@
 .art-work__price {
   margin: 0;
   font-size: 20px;
+}
+
+.art-work__right {
+  text-align: right;
+}
+
+.available {
+  color: var(--green);
+}
+
+.not-available {
+  color: var(--error-color);
 }

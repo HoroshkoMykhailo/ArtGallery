@@ -5,7 +5,7 @@ import { type ArtWorkType } from '../../artwork.js';
 type ArtWork = {
   artist: string;
   availability: boolean;
-  id: string;
+  id: number;
   image?: string;
   price: number;
   title: string;

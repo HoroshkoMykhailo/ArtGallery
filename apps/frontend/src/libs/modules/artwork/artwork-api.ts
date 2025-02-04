@@ -21,6 +21,14 @@ class ArtWork implements ArtWorkApi {
     this.httpApi = httpApi;
   }
 
+  public async deleteArtWork(id: number): Promise<boolean> {
+    const { data } = await this.httpApi.delete<boolean>(
+      `${this.apiPath}/${id}`
+    );
+
+    return data;
+  }
+
   public async getArtWorks(query: ArtWorkQuery = {}): Promise<TArtWork[]> {
     const queryParameters = toQueryParameters(query);
 
