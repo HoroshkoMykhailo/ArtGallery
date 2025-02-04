@@ -21,7 +21,7 @@ const Main = (): JSX.Element => {
   return (
     <main className={styles['main']}>
       <h1 className={styles['main__title']}>Explore our collection</h1>
-      <FilterOptions query={query} setQuery={setQuery} />
+      <FilterOptions setQuery={setQuery} />
       <ArtList
         artWorks={data}
         loading={loading}

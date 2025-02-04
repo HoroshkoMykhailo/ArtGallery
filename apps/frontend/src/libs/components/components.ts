@@ -1,6 +1,7 @@
 export { ArtList } from './art-list/art-list.js';
 export { ArtWork } from './art-work/art-work.js';
 export { Button } from './button/button.js';
+export { Dropdown } from './dropdown/dropdown.js';
 export { FilterOptions } from './filter-options/filter-options.js';
 export { Footer } from './footer/footer.js';
 export { Header } from './header/header.js';

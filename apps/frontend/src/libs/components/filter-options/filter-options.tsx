@@ -1,33 +1,50 @@
-import { useCallback, useState } from '~/libs/hooks/hooks.js';
-import { type ArtWorkQuery } from '~/libs/modules/artwork/artwork.js';
+import { getOptions } from '~/libs/helpers/get-options.js';
+import {
+  useCallback,
+  useDebounce,
+  useEffect,
+  useState
+} from '~/libs/hooks/hooks.js';
+import {
+  type ArtWorkQuery,
+  ArtWorkType,
+  SortOrder
+} from '~/libs/modules/artwork/artwork.js';
+import { type ValueOf } from '~/libs/types/types.js';
 
-import { Button } from '../components.js';
+import { Button, Dropdown } from '../components.js';
 import styles from './styles.module.css';
 
 type Properties = {
-  query: ArtWorkQuery;
-  setQuery: (newQuery: ArtWorkQuery) => void;
+  setQuery: React.Dispatch<React.SetStateAction<ArtWorkQuery>>;
 };
 
-const FilterOptions = ({ query, setQuery }: Properties): JSX.Element => {
+const FilterOptions = ({ setQuery }: Properties): JSX.Element => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchBy, setSearchBy] = useState<'' | 'artist' | 'title'>('');
+  const [sortOrder, setSortOrder] = useState<'' | ValueOf<typeof SortOrder>>(
+    ''
+  );
+  const [artworkType, setArtworkType] = useState<
+    '' | ValueOf<typeof ArtWorkType>
+  >('');
 
-  const handleSearch = useCallback(() => {
-    let newQuery: ArtWorkQuery = { ...query };
+  const debouncedSearchValue = useDebounce(searchValue, { wait: 500 });
 
-    if (searchBy) {
-      newQuery[searchBy] = searchValue;
-    } else {
-      newQuery.title = searchValue;
-    }
-
-    setQuery(newQuery);
-  }, [query, searchBy, searchValue, setQuery]);
+  useEffect(() => {
+    setQuery(previousQuery => ({
+      ...previousQuery,
+      [searchBy || 'title']: debouncedSearchValue,
+      ...(sortOrder && { price: sortOrder }),
+      ...(artworkType && { type: artworkType })
+    }));
+  }, [artworkType, debouncedSearchValue, searchBy, setQuery, sortOrder]);
 
   const handleClear = useCallback(() => {
     setSearchValue('');
     setSearchBy('');
+    setSortOrder('');
+    setArtworkType('');
     setQuery({});
   }, [setQuery]);
 
@@ -38,12 +55,19 @@ const FilterOptions = ({ query, setQuery }: Properties): JSX.Element => {
     []
   );
 
-  const handleSelectChange = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setSearchBy(event.target.value as 'artist' | 'title');
-    },
-    []
-  );
+  const handleSelectChange = useCallback((value: string) => {
+    setSearchBy(value as '' | 'artist' | 'title');
+  }, []);
+
+  const handleSelectSortOrder = useCallback((value: string) => {
+    const order = value as ValueOf<typeof SortOrder>;
+    setSortOrder(order);
+  }, []);
+
+  const handleSelectArtworkType = useCallback((value: string) => {
+    const type = value as ValueOf<typeof ArtWorkType>;
+    setArtworkType(type);
+  }, []);
 
   return (
     <div className={styles['filter-options']}>
@@ -54,18 +78,28 @@ const FilterOptions = ({ query, setQuery }: Properties): JSX.Element => {
         type="text"
         value={searchValue}
       />
-      <select
-        className={styles['filter-options__select']}
-        onChange={handleSelectChange}
-        value={searchBy}
-      >
-        <option hidden selected value="">
-          Search by
-        </option>
-        <option value="title">Title</option>
-        <option value="artist">Artist</option>
-      </select>
-      <Button onClick={handleSearch}>Search</Button>
+      <Dropdown
+        onSelect={handleSelectChange}
+        options={[
+          { label: 'Title', value: 'title' },
+          { label: 'Artist', value: 'artist' }
+        ]}
+        placeholder="Search by"
+        selected={searchBy}
+      />
+      <Dropdown
+        onSelect={handleSelectSortOrder}
+        options={getOptions(SortOrder)}
+        placeholder="Sort By"
+        selected={sortOrder}
+      />
+      <Dropdown
+        onSelect={handleSelectArtworkType}
+        options={getOptions(ArtWorkType)}
+        placeholder="Select type"
+        selected={artworkType}
+      />
+      {/* <Button onClick={handleSearch}>Search</Button> */}
       <Button onClick={handleClear}>Clear</Button>
     </div>
   );
