@@ -1,11 +1,10 @@
-import { useCallback } from 'react';
-
 import { Button } from '../components.js';
 import styles from './styles.module.css';
 
 type Properties = {
   disabled: boolean;
   isRemoving: boolean;
+  onAddNew: () => void;
   onCancelRemove: () => void;
   onConfirmRemove: () => void;
   onRemove: () => void;
@@ -14,17 +13,14 @@ type Properties = {
 const ControlButtons = ({
   disabled,
   isRemoving,
+  onAddNew,
   onCancelRemove,
   onConfirmRemove,
   onRemove
 }: Properties): JSX.Element => {
-  const addNew = useCallback(() => {
-    throw new Error('Not implemented');
-  }, []);
-
   return (
     <div className={styles['control-buttons']}>
-      <Button onClick={addNew}>Add New Artwork</Button>
+      <Button onClick={onAddNew}>Add New Artwork</Button>
       {isRemoving ? (
         <>
           <Button disabled={disabled} onClick={onConfirmRemove}>

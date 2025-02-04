@@ -1,5 +1,6 @@
 export { ArtList } from './art-list/art-list.js';
-export { ArtWork } from './art-work/art-work.js';
+export { ArtWork } from './artwork/artwork.js';
+export { ArtWorkModal } from './artwork-modal/artwork-modal.js';
 export { Button } from './button/button.js';
 export { ControlButtons } from './control-buttons/control-buttons.js';
 export { Dropdown } from './dropdown/dropdown.js';
