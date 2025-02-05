@@ -12,6 +12,7 @@ export { artWorkApi };
 export {
   type ArtWork,
   type ArtWorkQuery,
+  type ArtWorkRequestDto,
   ArtWorkType,
   SortOrder
 } from './libs/types/types.js';

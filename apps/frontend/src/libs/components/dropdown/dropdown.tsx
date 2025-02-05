@@ -59,7 +59,11 @@ const Dropdown = ({
 
   return (
     <div className={styles['dropdown']} ref={dropdownReference}>
-      <button className={styles['dropdown__button']} onClick={handleSetOpen}>
+      <button
+        className={`${styles['dropdown__button']} ${selected && styles['dropdown__button--selected']}`}
+        onClick={handleSetOpen}
+        type="button"
+      >
         {selected
           ? options.find(opt => opt.value === selected)?.label
           : placeholder}

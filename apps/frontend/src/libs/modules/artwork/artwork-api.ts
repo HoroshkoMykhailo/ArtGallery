@@ -4,6 +4,7 @@ import { toQueryParameters } from './libs/helpers/helpers.js';
 import {
   type ArtWorkApi,
   type ArtWorkQuery,
+  type ArtWorkRequestDto,
   type ArtWork as TArtWork
 } from './libs/types/types.js';
 
@@ -19,6 +20,12 @@ class ArtWork implements ArtWorkApi {
   public constructor({ apiPath, httpApi }: Constructor) {
     this.apiPath = apiPath;
     this.httpApi = httpApi;
+  }
+
+  public async createArtWork(artWork: ArtWorkRequestDto): Promise<TArtWork> {
+    const { data } = await this.httpApi.post<TArtWork>(this.apiPath, artWork);
+
+    return data;
   }
 
   public async deleteArtWork(id: number): Promise<boolean> {

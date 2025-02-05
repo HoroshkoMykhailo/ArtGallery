@@ -23,14 +23,6 @@
   outline: none;
 }
 
-.filter-options__select option {
-  padding: 5px;
-}
-
-.filter-options__select option:hover {
-  background-color: bisque;
-}
-
 .filter-options__input::placeholder {
   color: var(--light-black);
 }
