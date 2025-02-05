@@ -1,11 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as express from 'express';
 import 'reflect-metadata';
 
 import { AppModule } from './app.module.js';
-import { staticPath } from './libs/constants/constants.js';
 
 const DEFAULT_PORT = 3000;
 
@@ -20,8 +18,6 @@ async function bootstrap(): Promise<void> {
       whitelist: true
     })
   );
-
-  app.use('/static', express.static(staticPath));
 
   const config = new DocumentBuilder()
     .setTitle('ArtGallery API')
