@@ -20,7 +20,7 @@ const ArtWork = ({
   isRemoving,
   selectedId
 }: Properties): JSX.Element => {
-  const image = artWork.image ?? DEFAULT_IMAGE;
+  const image = DEFAULT_IMAGE;
   const isSelected = selectedId === artWork.id;
   const availableClass = artWork.availability
     ? styles['available']

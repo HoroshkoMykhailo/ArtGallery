@@ -17,16 +17,6 @@ const updateArtWorkValidationSchema = Joi.object({
   availability: Joi.boolean().optional().messages({
     'boolean.base': ArtWorkValidationMessage.AVAILABILITY_BOOLEAN
   }),
-  image: Joi.string()
-    .uri({ allowRelative: false })
-    .allow('')
-    .optional()
-    .pattern(/\.(jpeg|jpg|png|gif|bmp|svg)$/i)
-    .messages({
-      'object.base': ArtWorkValidationMessage.IMAGE_URI_INVALID,
-      'string.pattern.base': ArtWorkValidationMessage.IMAGE_TYPE_INVALID,
-      'string.uri': ArtWorkValidationMessage.IMAGE_VALIDATION_ERROR
-    }),
   price: Joi.number()
     .greater(ArtWorkValidationRule.PRICE_MIN_VALUE)
     .optional()

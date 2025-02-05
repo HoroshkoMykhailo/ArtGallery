@@ -6,7 +6,6 @@ type ArtWork = {
   artist: string;
   availability: boolean;
   id: number;
-  image?: string;
   price: number;
   title: string;
   type: ValueOf<typeof ArtWorkType>;

@@ -22,25 +22,8 @@ class ArtWork implements ArtWorkApi {
     this.httpApi = httpApi;
   }
 
-  public async createArtWork(
-    artWork: ArtWorkRequestDto,
-    image?: File
-  ): Promise<TArtWork> {
-    const formData = new FormData();
-
-    for (const [key, value] of Object.entries(artWork)) {
-      formData.append(key, value.toString());
-    }
-
-    if (image) {
-      formData.append('image', image);
-    }
-
-    const { data } = await this.httpApi.post<TArtWork>(this.apiPath, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+  public async createArtWork(artWork: ArtWorkRequestDto): Promise<TArtWork> {
+    const { data } = await this.httpApi.post<TArtWork>(this.apiPath, artWork);
 
     return data;
   }
