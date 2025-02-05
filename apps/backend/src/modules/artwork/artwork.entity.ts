@@ -20,10 +20,6 @@ class ArtWork {
   @ApiProperty({ description: 'Unique artwork Id', example: 1 })
   public id!: number;
 
-  @Column({ nullable: true, type: 'varchar' })
-  @ApiProperty({ description: 'Artwork image url', example: 'imageUrl' })
-  public image?: string;
-
   @Column({ type: 'int' })
   @ApiProperty({ description: 'Artwork price', example: 100 })
   public price!: number;

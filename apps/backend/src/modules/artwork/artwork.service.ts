@@ -1,10 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { type Express } from 'express';
-import 'multer';
 import { ILike, Repository } from 'typeorm';
-
-import { saveFile } from '~/libs/helpers/helpers.js';
 
 import { ArtWork } from './artwork.js';
 import { ArtWorkError, SortOrder } from './libs/enums/enums.js';
@@ -23,11 +19,7 @@ class ArtWorkService {
     private readonly artWorkRepository: Repository<ArtWork>
   ) {}
 
-  public async createArtWork(
-    body: ArtWorkRequestDto,
-    file?: Express.Multer.File
-  ): Promise<TArtWork> {
-    const filePath = file ? await saveFile(file) : undefined;
+  public async createArtWork(body: ArtWorkRequestDto): Promise<TArtWork> {
     const { artist, availability, price, title, type } = body;
 
     const artWork = this.artWorkRepository.create({
@@ -35,8 +27,7 @@ class ArtWorkService {
       availability: availability || false,
       price,
       title,
-      type,
-      ...(filePath && { image: filePath })
+      type
     });
 
     return transformArtWork(await this.artWorkRepository.save(artWork));
@@ -88,8 +79,7 @@ class ArtWorkService {
   }
   public async updateArtWork(
     id: number,
-    body: UpdateArtWorkRequestDto,
-    file?: Express.Multer.File
+    body: UpdateArtWorkRequestDto
   ): Promise<TArtWork> {
     const artWork = await this.artWorkRepository.findOne({
       where: { id }
@@ -99,11 +89,8 @@ class ArtWorkService {
       throw new NotFoundException(ArtWorkError.NOT_FOUND);
     }
 
-    const filePath = file ? saveFile(file) : artWork.image;
-
     Object.assign(artWork, {
-      ...body,
-      ...(filePath && { image: filePath })
+      ...body
     });
 
     return transformArtWork(await this.artWorkRepository.save(artWork));

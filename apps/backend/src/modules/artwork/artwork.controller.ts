@@ -9,25 +9,18 @@ import {
   Post,
   Put,
   Query,
-  UploadedFile,
-  UseInterceptors,
   UsePipes
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBody,
-  ApiConsumes,
   ApiOperation,
   ApiParam,
   ApiQuery,
   ApiResponse
 } from '@nestjs/swagger';
-import { type Express } from 'express';
-import 'multer';
 
 import { JoiValidationPipe } from '~/libs/helpers/helpers.js';
 
-import { imageFileFilter } from '../../libs/filters/filters.js';
 import { ArtWorkService } from './artwork.service.js';
 import { ArtWorkError, ArtWorkType, SortOrder } from './libs/enums/enums.js';
 import {
@@ -49,11 +42,6 @@ class ArtWorksController {
   ) {}
 
   @Post()
-  @UseInterceptors(
-    FileInterceptor('image', {
-      fileFilter: imageFileFilter
-    })
-  )
   @UsePipes(new JoiValidationPipe(artWorkValidationSchema))
   @ApiOperation({ summary: 'New artwork creation' })
   @ApiResponse({
@@ -64,13 +52,11 @@ class ArtWorksController {
     description: 'Bad request',
     status: HttpStatus.BAD_REQUEST
   })
-  @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
       properties: {
         artist: { example: 'John Doe', type: 'string' },
         availability: { example: true, type: 'boolean' },
-        image: { format: 'binary', type: 'string' },
         price: { example: 100, type: 'number' },
         title: { example: 'Beautiful Painting', type: 'string' },
         type: { example: 'painting', type: 'string' }
@@ -79,10 +65,9 @@ class ArtWorksController {
     }
   })
   public async createArtWork(
-    @Body() body: ArtWorkRequestDto,
-    @UploadedFile() file?: Express.Multer.File
+    @Body() body: ArtWorkRequestDto
   ): Promise<TArtWork> {
-    return await this.artWorkService.createArtWork(body, file);
+    return await this.artWorkService.createArtWork(body);
   }
 
   @Delete(':id')
@@ -152,11 +137,6 @@ class ArtWorksController {
   }
 
   @Put(':id')
-  @UseInterceptors(
-    FileInterceptor('image', {
-      fileFilter: imageFileFilter
-    })
-  )
   @UsePipes(new JoiValidationPipe(updateArtWorkValidationSchema))
   @ApiOperation({ summary: 'Update artwork' })
   @ApiResponse({
@@ -167,7 +147,6 @@ class ArtWorksController {
     description: ArtWorkError.NOT_FOUND,
     status: HttpStatus.NOT_FOUND
   })
-  @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
       properties: {
@@ -183,10 +162,9 @@ class ArtWorksController {
   @ApiParam({ name: 'id', type: 'number' })
   public async updateArtWork(
     @Param('id') id: number,
-    @Body() body: UpdateArtWorkRequestDto,
-    @UploadedFile() file?: Express.Multer.File
+    @Body() body: UpdateArtWorkRequestDto
   ): Promise<TArtWork> {
-    return await this.artWorkService.updateArtWork(id, body, file);
+    return await this.artWorkService.updateArtWork(id, body);
   }
 }
 
