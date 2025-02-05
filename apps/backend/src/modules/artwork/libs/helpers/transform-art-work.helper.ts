@@ -6,7 +6,7 @@ const transformArtWork = (entity: ArtWorkEntity): ArtWork => {
   const artWork: ArtWork = {
     artist,
     availability,
-    id: id.toString(),
+    id,
     price,
     title,
     type

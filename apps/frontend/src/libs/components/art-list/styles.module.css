@@ -1,0 +1,31 @@
+.art-list {
+  all: unset;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 5px 16px;
+  overflow-y: auto;
+}
+
+.art-list__grow {
+  flex-grow: 1;
+}
+
+.art-list__loader {
+  display: flex;
+  grid-column: span 3;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.art-list__error {
+  display: flex;
+  grid-column: span 3;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 20px;
+  color: var(--error-color);
+}

@@ -27,7 +27,7 @@ class ArtWorkService {
     body: ArtWorkRequestDto,
     file?: Express.Multer.File
   ): Promise<TArtWork> {
-    const filePath = file ? saveFile(file) : undefined;
+    const filePath = file ? await saveFile(file) : undefined;
     const { artist, availability, price, title, type } = body;
 
     const artWork = this.artWorkRepository.create({

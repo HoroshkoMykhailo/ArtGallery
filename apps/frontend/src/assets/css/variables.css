@@ -1,0 +1,11 @@
+:root {
+  --black: #000000;
+  --light-black: #0000004d;
+  --modal-background: #00000080;
+  --white: #ffffff;
+  --light-gray: #f5f5f5;
+  --gray: #ebebeb;
+  --error-color: #ff0000;
+  --remove-color: #ff000033;
+  --green: #00bf00;
+}

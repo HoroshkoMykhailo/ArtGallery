@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import js from '@eslint/js';
 import ts from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
@@ -114,7 +113,8 @@ const sonarConfig = {
   },
   rules: {
     ...sonarjs.configs.recommended.rules,
-    'sonarjs/cognitive-complexity': ['error', 16]
+    'sonarjs/cognitive-complexity': ['error', 16],
+    'sonarjs/no-duplicate-string': ['off']
   }
 };
 
@@ -140,6 +140,7 @@ const perfectionistConfig = {
 
 /** @type {FlatConfig} */
 const typescriptConfig = {
+  ignores: ['eslint.config.js', 'lint-staged.config.js', 'stylelint.config.js'],
   languageOptions: {
     parser: /** @type {ParserModule} */ (tsParser),
     parserOptions: {
@@ -213,7 +214,7 @@ const typescriptConfig = {
 
 /** @type {FlatConfig} */
 const jsdocConfig = {
-  files: ['eslint.config.js', 'lint-staged.config.js'],
+  files: ['eslint.config.js', 'lint-staged.config.js', 'stylelint.config.js'],
   plugins: {
     jsdoc
   },

@@ -1,0 +1,23 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 20px;
+  color: var(--white);
+  background-color: var(--black);
+}
+
+.footer__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.footer__right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}

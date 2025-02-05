@@ -1,0 +1,7 @@
+.control-buttons {
+  display: flex;
+  gap: 10px;
+  height: 50px;
+  padding: 10px 16px;
+  margin-top: 10px;
+}

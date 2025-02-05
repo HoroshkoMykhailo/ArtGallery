@@ -24,7 +24,7 @@
     "migration:generate": "tsx ../../node_modules/typeorm/cli.js migration:generate ./src/migrations/InitialMigration -d ./src/libs/config/ormconfig.ts",
     "migration:run": "tsx ../../node_modules/typeorm/cli.js migration:run -d ./src/libs/config/ormconfig.ts",
     "migration:revert": "tsx ../../node_modules/typeorm/cli.js migration:revert -d ./src/libs/config/ormconfig.ts",
-    "migration:create": "tsx ../../node_modules/typeorm/cli.js migration:create -d ./src/libs/config/ormconfig.ts"
+    "migration:create": "tsx ../../node_modules/typeorm/cli.js migration:create ./src/migrations/%npm_config_name%"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -33,6 +33,7 @@
     "@nestjs/swagger": "^8.0.7",
     "@nestjs/typeorm": "^10.0.2",
     "pg": "^8.13.1",
+    "class-transformer": "^0.5.1",
     "reflect-metadata": "^0.2.0",
     "dotenv": "16.4.5",
     "rxjs": "^7.8.1",
@@ -43,7 +44,6 @@
     "@art-gallery/shared": "*",
     "@nestjs/testing": "^10.0.0",
     "@types/express": "^5.0.0",
-    "@types/uuid": "^9.0.2",
     "@types/node": "^20.3.1",
     "@types/multer": "^1.4.7",
     "@types/supertest": "^6.0.0",

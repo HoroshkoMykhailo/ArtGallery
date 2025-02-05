@@ -1,0 +1,15 @@
+{
+  "short_name": "ArtGallery",
+  "name": "Art Gallery Management System",
+  "icons": [
+    {
+      "src": "path/to/icon.svg",
+      "sizes": "36x36",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
