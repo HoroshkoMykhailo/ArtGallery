@@ -90,7 +90,7 @@ const FilterOptions = ({ setQuery }: Properties): JSX.Element => {
       <Dropdown
         onSelect={handleSelectSortOrder}
         options={getOptions(SortOrder)}
-        placeholder="Sort By"
+        placeholder="Sort By Price"
         selected={sortOrder}
       />
       <Dropdown

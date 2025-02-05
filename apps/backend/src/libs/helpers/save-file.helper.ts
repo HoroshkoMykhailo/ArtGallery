@@ -1,23 +1,31 @@
+import { BadRequestException } from '@nestjs/common';
+import axios from 'axios';
 import { type Express } from 'express';
 import 'multer';
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import { v4 as uuidv4 } from 'uuid';
 
-import { staticPath } from '../constants/constants.js';
+import { OutsideApi } from '../config/outside-api.js';
 
-const saveFile = (file: Express.Multer.File): string => {
-  const uniqueFileName = `${uuidv4()}${path.extname(file.originalname)}`;
-  const uploadFolder = staticPath;
+type ImageBBResponse = {
+  data: {
+    url: string;
+  };
+};
 
-  if (!fs.existsSync(uploadFolder)) {
-    fs.mkdirSync(uploadFolder, { recursive: true });
+const saveFile = async (file: Express.Multer.File): Promise<string> => {
+  const form = new FormData();
+  form.append('image', file.buffer.toString('base64'));
+
+  try {
+    const response = await axios.post<ImageBBResponse>(
+      `${OutsideApi.IMAGE_API_URL}?key=${OutsideApi.IMAGE_API_KEY}`,
+      form,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    );
+
+    return response.data.data.url;
+  } catch {
+    throw new BadRequestException('Failed to upload image');
   }
-
-  const filePath = path.join(uploadFolder, uniqueFileName);
-  fs.writeFileSync(filePath, file.buffer);
-
-  return `/static/${uniqueFileName}`;
 };
 
 export { saveFile };

@@ -44,6 +44,8 @@ Then:
 
 You should use .env.example files as a reference.
 
-5. Run backend: `npm run start:dev -w apps/backend`
+5. Run migrations: `npm run migration:run -w apps/backend`
 
-6. Run frontend: `npm run start:dev -w apps/frontend`
+6. Run backend: `npm run start:dev -w apps/backend`
+
+7. Run frontend: `npm run start:dev -w apps/frontend`

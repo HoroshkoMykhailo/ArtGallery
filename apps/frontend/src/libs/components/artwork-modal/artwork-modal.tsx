@@ -2,7 +2,6 @@ import { type ChangeEvent, type FormEvent, type MouseEvent } from 'react';
 import { type NumberFormatValues, NumericFormat } from 'react-number-format';
 
 import { DEFAULT_IMAGE, ZERO_VALUE } from '~/libs/common/constants.js';
-import { ENV } from '~/libs/enums/environment.enum.js';
 import { getOptions } from '~/libs/helpers/helpers.js';
 import { useCallback, useState } from '~/libs/hooks/hooks.js';
 import {
@@ -30,9 +29,7 @@ const ArtWorkModal = ({ onClose }: Properties): JSX.Element => {
     type: ''
   });
 
-  const [imageUrl, setImageUrl] = useState<string>(
-    `${ENV.SERVER_URL}${DEFAULT_IMAGE}`
-  );
+  const [imageUrl, setImageUrl] = useState<string>(DEFAULT_IMAGE);
   const [image, setImage] = useState<File | null>(null);
 
   const handleImageChange = useCallback(

@@ -3,7 +3,6 @@ import {
   ONE_VALUE,
   ZERO_VALUE
 } from '~/libs/common/constants.js';
-import { ENV } from '~/libs/enums/enums.js';
 import { getRandomShadowColor } from '~/libs/helpers/helpers.js';
 import { type ArtWork as TArtWork } from '~/libs/modules/artwork/artwork.js';
 
@@ -45,7 +44,7 @@ const ArtWork = ({
         <img
           alt={artWork.title}
           className={styles['art-work__img']}
-          src={`${ENV.SERVER_URL}${image}`}
+          src={image}
         />
       </div>
       <div className={styles['art-work__body']}>
