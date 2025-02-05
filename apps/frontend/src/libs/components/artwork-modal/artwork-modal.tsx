@@ -1,7 +1,8 @@
 import { type ChangeEvent, type FormEvent, type MouseEvent } from 'react';
 import { type NumberFormatValues, NumericFormat } from 'react-number-format';
 
-import { ZERO_VALUE } from '~/libs/common/constants.js';
+import { DEFAULT_IMAGE, ZERO_VALUE } from '~/libs/common/constants.js';
+import { ENV } from '~/libs/enums/environment.enum.js';
 import { getOptions } from '~/libs/helpers/helpers.js';
 import { useCallback, useState } from '~/libs/hooks/hooks.js';
 import {
@@ -29,6 +30,25 @@ const ArtWorkModal = ({ onClose }: Properties): JSX.Element => {
     type: ''
   });
 
+  const [imageUrl, setImageUrl] = useState<string>(
+    `${ENV.SERVER_URL}${DEFAULT_IMAGE}`
+  );
+  const [image, setImage] = useState<File | null>(null);
+
+  const handleImageChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files.length > ZERO_VALUE) {
+        const file = event.target.files[ZERO_VALUE];
+
+        if (file) {
+          setImageUrl(URL.createObjectURL(file));
+          setImage(file);
+        }
+      }
+    },
+    []
+  );
+
   const handleOverlayClick = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       if (event.target === event.currentTarget) {
@@ -50,13 +70,6 @@ const ArtWorkModal = ({ onClose }: Properties): JSX.Element => {
     []
   );
 
-  const handleTypeSelect = useCallback((selectedType: string) => {
-    setFormData(previous => ({
-      ...previous,
-      type: selectedType as ValueOf<typeof ArtWorkType>
-    }));
-  }, []);
-
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -67,11 +80,23 @@ const ArtWorkModal = ({ onClose }: Properties): JSX.Element => {
         type: formData.type as ValueOf<typeof ArtWorkType>
       };
 
-      void artWorkApi.createArtWork(formattedData);
+      if (image) {
+        void artWorkApi.createArtWork(formattedData, image);
+      } else {
+        void artWorkApi.createArtWork(formattedData);
+      }
+
       onClose();
     },
-    [formData, onClose]
+    [formData, image, onClose]
   );
+
+  const handleTypeSelect = useCallback((selectedType: string) => {
+    setFormData(previous => ({
+      ...previous,
+      type: selectedType as ValueOf<typeof ArtWorkType>
+    }));
+  }, []);
 
   const handlePriceChange = useCallback(
     (values: NumberFormatValues) => {
@@ -90,11 +115,39 @@ const ArtWorkModal = ({ onClose }: Properties): JSX.Element => {
     }));
   }, []);
 
+  const handleImageClick = useCallback(() => {
+    const imageInput = document.querySelector('#image') as HTMLInputElement;
+    imageInput.click();
+  }, []);
+
   return (
     <div className={styles['modal-overlay']} onClick={handleOverlayClick}>
       <div className={styles['modal-content']}>
         <h2 className={styles['modal-content__title']}>Add New Artwork</h2>
         <form className={styles['modal-content__form']} onSubmit={handleSubmit}>
+          <div className={styles['form-group']}>
+            <label className={styles['form-group__label']} htmlFor="image">
+              Image
+            </label>
+            <div
+              className={styles['art-work__img-wrapper']}
+              onClick={handleImageClick}
+            >
+              <img
+                alt="artwork"
+                className={styles['art-work__img']}
+                src={imageUrl}
+              />
+              <input
+                accept="image/*"
+                id="image"
+                name="image"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+                type="file"
+              />
+            </div>
+          </div>
           <div className={styles['form-group']}>
             <label className={styles['form-group__label']} htmlFor="title">
               Title
@@ -163,10 +216,10 @@ const ArtWorkModal = ({ onClose }: Properties): JSX.Element => {
             />
           </div>
           <div className={styles['modal-buttons']}>
-            <Button type="submit">Add</Button>
             <Button onClick={onClose} type="button">
               Cancel
             </Button>
+            <Button type="submit">Add</Button>
           </div>
         </form>
       </div>

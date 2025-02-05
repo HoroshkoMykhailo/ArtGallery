@@ -20,6 +20,7 @@ const Checkbox = ({
       <input
         checked={isChecked}
         className={styles['checkbox']}
+        onChange={onChange}
         readOnly={isReadOnly}
         type="checkbox"
       />
