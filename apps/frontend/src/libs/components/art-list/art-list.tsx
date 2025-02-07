@@ -37,12 +37,12 @@ const ArtList = ({
           (artWorkElement as HTMLDivElement).dataset['artworkId']
         );
 
-        if (!Number.isNaN(artWorkId)) {
+        if (!Number.isNaN(artWorkId) && isRemoving) {
           onSelect(artWorkId);
         }
       }
     },
-    [onSelect]
+    [isRemoving, onSelect]
   );
 
   return (
